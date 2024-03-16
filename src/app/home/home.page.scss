@@ -80,6 +80,10 @@ ion-content.background{
   width: 30%;
 }
 
+#imgProducto2{
+  width: 20%;
+}
+
 #pPrice{
   width: 60px;
 }
@@ -91,7 +95,7 @@ ion-content.background{
 #pPricePeso{
   width: 45%;
   margin-right: 5px;
-  font-size: 15px;
+  font-size: 13px;
 }
 
 #pTotal{
@@ -100,6 +104,12 @@ ion-content.background{
 
 #btnAdd{
   width: 15%;
+  font-size: 15px;
+  margin-left: 10px;
+}
+
+#imprimir{
+  width: 170px;
   font-size: 15px;
   margin-left: 10px;
 }

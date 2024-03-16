@@ -13,7 +13,7 @@
     </ion-toolbar>
   </ion-header> -->
 
-  <div *ngIf="isConnected">
+  <div *ngIf="!isConnected">
     <div id="divCentral">
       <p id="pOpciones">SELECCIONA ALGUN DISPOSITIVO</p>
   </div>
@@ -25,7 +25,7 @@
     </ion-list>
   </div>
 
-  <div *ngIf="!isConnected">
+  <div *ngIf="isConnected">
     <div id="divCentral">
       <p id="pOpciones">SELECCIONA ALGUN ARTICULO</p>
     </div>
@@ -80,7 +80,7 @@
      <!--  <ion-button (click)="sendData('1')" *ngIf="!isConnected">Enviar dato</ion-button> -->
      <ion-button fill="clear" id="btnCalculateCancel" (click)="cancelAdd()" *ngIf="showSelectedItem" >Cancelar</ion-button>
     <ion-button fill="clear" id="btnCalculateCancel" (click)="calculatePrice()" *ngIf="showSelectedItem" >Calcular Precio</ion-button>
-    <button fill="clear" id="btnCalculateCancel" (click)="sendData('1')">Enviar</button>
+    <!-- <button fill="clear" id="btnCalculateCancel" (click)="sendData('1')">Enviar</button> -->
     </div>
     
     <div *ngIf="calculatedProducts.length > 0">
@@ -90,24 +90,26 @@
       <ion-list>
         <ion-item *ngFor="let product of calculatedProducts; let i = index">
           <ion-button (click)="selectedProductIndex = i; removeProduct()" color="danger" size="small">X</ion-button>
-          <ion-img id="imgProducto" [src]="product.item.img"></ion-img>
-          <p id="pPricePeso">{{ product.item.descripcion }} ${{ product.item.precio }} x {{ product.peso }} Kg</p>
-          <p id="pTotal"> = ${{ product.total }}</p>
+          <ion-img id="imgProducto2" [src]="product.item.img"></ion-img>
+          <p id="pPricePeso">{{ product.item.descripcion }} ${{ product.item.precio }} x {{ product.peso.toFixed(2) }} Kg</p>
+          <p id="pTotal"> = ${{ product.total.toFixed(2) }}</p>
         </ion-item>
       </ion-list>
     </div>
   
     <div id="divCentral" *ngIf="calculatedProducts.length > 0">
-      <p>Total a pagar: ${{ getTotalSum() }}</p>
+      <p>Total a pagar: ${{ getTotalSum()}}</p>
     </div>
   
     <!-- <ion-button (click)="deviceDisconnect()" *ngIf="isConnected">Desconectar</ion-button> -->
   </div>
 
+  <ion-button id="imprimir" (click)="imprimirWifi()" shape="round">Imprimir WIFI</ion-button>
 
+  <ion-button id="imprimir" (click)="imprimirBluetooth()" shape="round">Imprimir BLUETOOTH</ion-button>
   
 
-<br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 </ion-content>
 
 <ion-footer>

@@ -34,6 +34,7 @@
     "cordova-plugin-bluetooth-serial": "^0.4.7",
     "firebase": "^10.8.0",
     "ionicons": "^7.0.0",
+    "jspdf": "^2.5.1",
     "rxjs": "^6.6.7",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"

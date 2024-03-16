@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
 import { response } from 'express';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { jsPDF } from 'jspdf';
 
 
 @Component({
@@ -170,7 +171,7 @@ selectedProductIndex: number | null = null;
     this.isConnected = false;
   }
 
-  sendData(dataToSend: string) {
+ /*  sendData(dataToSend: string) {
       this.dataSend = "\n";
       this.dataSend += dataToSend;
 
@@ -179,7 +180,7 @@ selectedProductIndex: number | null = null;
       }, error => {
           this.showError(error);
       });
-  }
+  } */
 
  // Dentro de la clase HomePage
 async calculatePrice() {
@@ -279,7 +280,7 @@ showProducts(tipo: string) {
 
 // Dentro de la clase HomePage
 getTotalSum(): number {
-  return this.calculatedProducts.reduce((sum, product) => sum + product.total, 0);
+  return this.calculatedProducts.reduce((sum, product) => sum + product.total, 0).toFixed(3);
 }
 
 removeProduct(): void {
@@ -289,10 +290,164 @@ removeProduct(): void {
   }
 }
 
+imprimirWifi() {
+  const pdfDoc = this.generatePDF();
+  pdfDoc.autoPrint();
+  
+  // Obtener el PDF como un blob
+  const pdfBlob = pdfDoc.output('blob');
+  
+  // Crear una URL objeto para el blob
+  const blobUrl = URL.createObjectURL(pdfBlob);
+  
+  // Abrir el PDF en una nueva pestaña
+  window.open(blobUrl, '_system', 'location=yes');
+
+  alert("LLegamos al final");
+  console.log("LLegamos al final");
 }
 
+generatePDF() {
+  const ticketWidth = 80; // Ancho del ticket en milímetros (8 cm)
+  const ticketHeight = 300; // Altura del ticket en milímetros (puedes ajustar según tus necesidades)
+  const doc = new jsPDF({
+    orientation: 'portrait',
+    unit: 'mm',
+    format: [ticketWidth, ticketHeight]
+  });
 
+  // Agregar el logo
+  const logoImg = new Image();
+  logoImg.src = 'assets/img/ESMERALDA_LOGO.png';
+  const logoWidth = 60;
+  const logoHeight = 20;
+  const logoX = (ticketWidth - logoWidth) / 2;
+  const logoY = 10;
+  doc.addImage(logoImg, 'PNG', logoX, logoY, logoWidth, logoHeight);
 
+  // Agregar los detalles de los productos
+  let y = logoY + logoHeight + 10;
+  this.calculatedProducts.forEach(product => {
+    doc.setFontSize(10);
+    doc.text('-------------------------------------', 10, y);
+    y += 5;
+    doc.text(`${product.item.descripcion} $${product.item.precio} x ${product.peso} Kg`, 10, y);
+    y += 5;
+    doc.text(`Subtotal= $${product.total.toFixed(3)}`, 10, y);
+    y += 5;
+  });
+
+  // Agregar el total a pagar
+  doc.setFontSize(12);
+  y += 5;
+  doc.text('_______________________________________', 10, y);
+  y += 5;
+  doc.text(`|Total a pagar: $${this.getTotalSum()}`, 10, y);
+  y += 1;
+  doc.text('_______________________________________', 10, y);
+
+  return doc;
+}
+
+imprimirBluetooth() {
+  // Verificar si el dispositivo Bluetooth está disponible
+  this.bluetoothSerial.isEnabled().then(() => {
+    // Obtener la lista de dispositivos emparejados
+    this.bluetoothSerial.list().then((devices: any[]) => {
+      // Crear una lista de dispositivos para mostrar al usuario
+      const deviceList = devices.map(device => ({
+        name: device.name,
+        address: device.address
+      }));
+
+      // Mostrar un cuadro de diálogo con la lista de dispositivos
+      this.showDeviceListDialog(deviceList);
+    });
+  }).catch((error) => {
+    alert('Bluetooth no está disponible:'+ error);
+  });
+}
+
+async showDeviceListDialog(deviceList: any[]) {
+  const alert = await this.alertCtrl.create({
+    header: 'Seleccionar dispositivo',
+    inputs: deviceList.map(device => ({
+      name: device.address,
+      type: 'radio',
+      label: device.name,
+      value: device.address
+    })),
+    buttons: [
+      {
+        text: 'Cancelar',
+        role: 'cancel'
+      },
+      {
+        text: 'Conectar',
+        handler: (selectedAddress) => {
+          this.connectToDevice(selectedAddress);
+        }
+      }
+    ]
+  });
+
+  await alert.present();
+}
+
+connectToDevice(address: string) {
+  // Conectar con la impresora Bluetooth
+  this.bluetoothSerial.connect(address).subscribe(
+    () => {
+      alert('Conectado a la impresora Bluetooth');
+
+      // Generar el contenido del ticket
+      const ticketContent = this.getTicketContent();
+
+      // Enviar los datos del ticket a la impresora
+      this.bluetoothSerial.write(ticketContent).then(
+        () => {
+          alert('Datos del ticket enviados a la impresora');
+
+          // Desconectar de la impresora Bluetooth
+          this.bluetoothSerial.disconnect().then(() => {
+            alert('Desconectado de la impresora Bluetooth');
+            // Volver a llamar a listPairedDevices() para seguir recibiendo datos
+            this.listPairedDevices();
+          });
+        },
+        (error) => {
+          alert('Error al enviar los datos del ticket:'+ error);
+        }
+      );
+    },
+    (error) => {
+      alert('Error al conectar con la impresora Bluetooth:'+ error);
+    }
+  );
+}
+
+getTicketContent() {
+  let ticketContent = '';
+
+  // Agregar el título
+  ticketContent += 'Joyeria Esmeralda\n\n';
+
+  // Agregar los detalles de los productos
+  this.calculatedProducts.forEach(product => {
+    ticketContent += `${product.item.descripcion} $${product.item.precio} x ${product.peso} Kg\n`;
+    ticketContent += `Subtotal= $${product.total.toFixed(3)}\n`;
+    ticketContent += '-------------------------------------\n';
+  });
+
+  // Agregar el total a pagar
+  ticketContent += '_______________________________________\n';
+  ticketContent += `|Total a pagar: $${this.getTotalSum()}\n`;
+  ticketContent += '_______________________________________\n';
+
+  return ticketContent;
+}
+
+}
 
 
 interface PairedDevice {
