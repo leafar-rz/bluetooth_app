@@ -1,0 +1,74 @@
+
+<ion-content class="background">
+  <ion-grid class="ion-no-padding">
+    <ion-row>
+      <ion-col size-xs="12" size-md="8" offset-md="2" size-lg="6" offset-lg="3">
+
+        <form [formGroup]="formReg" (ngSubmit)="register()">
+       
+          <br>
+
+          <div>
+              <ion-img id="imgTabla1" src="assets/img/ESMERALDA_LOGO.png"></ion-img>
+              <h1 id="colorEtiqueta2">REGISTRO</h1>
+          </div>
+
+
+          <div id="centradotabla">
+
+            <div id="divEmailyPassword">
+              <ion-img id="imgPass" src="assets/img/user2.png"></ion-img>
+              <ion-input id="inputEmail" type="text" fill="none" label="User" labelPlacement="floating"
+                        helperText="Enter a valid user" errorText="Invalid user" formControlName="name"></ion-input>
+          </div>
+
+            <div id="divEmailyPassword">
+              <ion-img id="imgPass" src="assets/img/email2.png"></ion-img>
+              <ion-input id="inputEmail" type="email" fill="none" label="Email" labelPlacement="floating"
+                        helperText="Enter a valid email" errorText="Invalid email" formControlName="email"></ion-input>
+          </div>
+
+          <div id="divEmailyPassword">
+              <ion-img id="imgPass" src="assets/img/password2.png"></ion-img>
+              <ion-input id="inputEmail" type="password" fill="none" label="Password" labelPlacement="floating"
+              helperText="Enter a valid password" errorText="Invalid password" formControlName="password" minlength="6"></ion-input>
+        </div>
+
+        <div id="divInicioSesion">
+          <input id="input1" type="submit" value="REGISTRAR" style="margin-top: 20px;">
+      </div>
+
+      <div id="divEmailyPassword" style="margin: auto;">
+        <ion-button id="botonCondiciones" [routerLink]="['/forgot-password']" fill="clear">¿Olvidaste tu contraseña?</ion-button>
+
+    </div>
+          
+
+
+          </div>
+
+          <br>
+          
+          <div id="signUp">
+            <table id="tablaBotonSingUp">
+              
+              <tr>
+                <th>
+                  <ion-label id="labelNoTengoCuenta">Ya tienes cuenta</ion-label>
+                </th>
+              </tr>
+             
+              <tr>
+                <th id="thSignUpButton">
+                  <input id="input2" [routerLink]="['/']" value="LOGIN">
+                </th>
+              </tr>
+            </table>
+
+          </div>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+

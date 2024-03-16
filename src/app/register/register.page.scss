@@ -1,0 +1,171 @@
+ion-content.background{
+    --background: url("/assets/img/rosa.jpg") 0 0/100% 100% no-repeat;
+  }
+  background
+  {
+   background-color: aqua;
+  }
+
+  #imgTabla1{
+    width:70% ;
+    height:70% ;
+    padding-left: -10px;
+    padding-top: 10px;
+    margin-top: 200px;
+    margin: auto;
+    margin-top: 20px;
+  }
+
+  #colorEtiqueta2{
+    color: rgb(255, 255, 255);
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  #centradotabla{
+    border-radius: 30px;
+    width: 70%;
+    height: 40%;
+    text-align: center;
+    margin: 0 auto;
+    font-size:larger;
+    background-color: white;
+    //box-shadow: 0 0 15px #45a6c4;
+  }
+
+  #divEmailyPassword{
+    display: flex; align-items: center;
+  }
+  
+  #imgPass
+  {
+    width: 55px; 
+    margin-right: 10px;
+    margin-left: 10px;
+    height: 65px;
+  }
+
+
+  #inputEmail{
+    font-size: 18px;
+     width: auto;
+     font-weight: bold;
+     text-align: left;
+     margin-left: 5px
+    
+  }
+
+  #divInicioSesion{
+    display: flex; 
+    align-items: center;
+    margin: auto;
+    text-align: center;
+  }
+
+
+  #tablaCentral{
+    margin: 0 auto;
+    width:90%;
+    height:80% ;
+  }
+
+  #th1TablaCentro{
+    
+    width:10% ;
+    height:20% ;
+  }
+   
+  
+  
+
+  #th2TablaCentro{
+    width: auto;
+  }
+
+  #th3TablaCentro{
+    width: auto;
+  }
+
+  #input1{
+    size: default;
+    width:70% ;
+    height:45px ;
+    background-color: rgb(254, 164, 192);
+    color: white;
+    border-radius: 40px;
+    border: none;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  #thEncabezadoTablaCentral2{
+    column-span: 2;
+    margin: auto;
+    width: 1cm;height: 1cm;
+  }
+
+  #botonCondiciones{
+    width: 7cm;
+    height: 100%;
+    margin: auto;
+    color:black;
+    margin-top: 10px;
+  }
+
+
+  #signUp{
+    width: 55%;
+    height: 11%;
+    //border-radius: 20px;
+    text-align: center;
+    margin: 0 auto;
+    font-size:larger;
+    //background-color: white;
+    //box-shadow: 0 0 15px #45a6c4;
+  }
+
+
+  #tablaBotonSingUp{
+    margin: auto;
+    width:90% ;height:10% ;
+    }
+
+
+    #labelNoTengoCuenta{
+      position: floating;
+      font-size: small;color: rgb(73, 71, 69);
+    
+    }
+
+    #thSignUpButton{
+      width: 1cm;height: 1cm;
+    }
+
+    #input2{
+      text-align: center;
+      size: default;
+      width:100% ;
+      height:45px ;
+      background-color: rgb(254, 164, 192);
+      color: white;
+      border-radius: 40px;
+      border: none;
+      margin-top: 5px;
+      
+    }
+
+    #labelNoTengoCuenta{
+      position: floating;
+      font-size: small;color: rgb(73, 71, 69);
+    
+    }
+
+
+
+
+
+
+
+
+
+

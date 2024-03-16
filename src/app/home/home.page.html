@@ -1,0 +1,144 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      HOME
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="background" >
+  <!-- <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="small">SELECCIONA ALGUN ARTICULO</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+
+  <div *ngIf="isConnected">
+    <div id="divCentral">
+      <p id="pOpciones">SELECCIONA ALGUN DISPOSITIVO</p>
+  </div>
+
+    <ion-list *ngIf="listToggle && pairedList && pairedList.length > 0">
+      <ion-item *ngFor="let device of pairedList; let i = index" (click)="selectDevice(i)">
+        {{ device.name }}
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="!isConnected">
+    <div id="divCentral">
+      <p id="pOpciones">SELECCIONA ALGUN ARTICULO</p>
+    </div>
+  
+  
+    <ion-input id="inputPeso" type="text" fill="solid" label="Peso" labelPlacement="floating" helperText="Peso del articulo" errorText="Peso invalido" [(ngModel)]="receivedData"></ion-input>
+  
+    <div id="divCentral">
+      <p id="pOpciones">Selecciona una opción</p>
+    </div>
+  
+    <div id="divCentral" style="margin-top: -10px;">
+      <div>
+        <ion-img id="imgFrutas" src="assets/img/frutas.png" (click)="showProducts('Frutas')"></ion-img>
+      </div>
+      <div>
+        <ion-img id="imgVerduras" src="assets/img/verduras.png" (click)="showProducts('Verduras')"></ion-img>
+      </div>
+    </div>
+  
+    <div *ngIf="visible">
+      <div *ngFor="let categoria of articulos.categorias">
+        <div *ngIf="selectedCategory === categoria.nombre">
+          <div *ngFor="let articulo of categoria.articulos">
+            <div id="divCentral">
+              <ion-img id="imgProducto" [src]="articulo.img"></ion-img>
+              <p id="pDescripcion">{{ articulo.descripcion }}</p>
+              <p id="pPrice">${{ articulo.precio }} Kg</p>
+              <ion-button id="btnAdd" (click)="selectedArticle(articulo)" shape="round">ADD</ion-button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div *ngIf="showSelectedItem" id="divArticuloSeleccionado">
+      <div id="divCentral">
+        <p>Articulo Seleccionado</p>
+      </div>
+      
+      <div id="divCentral">
+        <ion-img id="imgProducto" [src]="selectedItem.img"></ion-img>
+        <p id="pDescripcion">{{ selectedItem.descripcion }}</p>
+        <p id="pPrice">${{ selectedItem.precio }} Kg</p>
+      </div>
+  
+      <br>
+    </div>
+    
+  
+    <div id="divCentral">
+     <!--  <ion-button (click)="sendData('1')" *ngIf="!isConnected">Enviar dato</ion-button> -->
+     <ion-button fill="clear" id="btnCalculateCancel" (click)="cancelAdd()" *ngIf="showSelectedItem" >Cancelar</ion-button>
+    <ion-button fill="clear" id="btnCalculateCancel" (click)="calculatePrice()" *ngIf="showSelectedItem" >Calcular Precio</ion-button>
+    <button fill="clear" id="btnCalculateCancel" (click)="sendData('1')">Enviar</button>
+    </div>
+    
+    <div *ngIf="calculatedProducts.length > 0">
+      <div id="divCentral">
+        <p id="pArticulosCalculados">Articulos Calculados</p>
+      </div>
+      <ion-list>
+        <ion-item *ngFor="let product of calculatedProducts; let i = index">
+          <ion-button (click)="selectedProductIndex = i; removeProduct()" color="danger" size="small">X</ion-button>
+          <ion-img id="imgProducto" [src]="product.item.img"></ion-img>
+          <p id="pPricePeso">{{ product.item.descripcion }} ${{ product.item.precio }} x {{ product.peso }} Kg</p>
+          <p id="pTotal"> = ${{ product.total }}</p>
+        </ion-item>
+      </ion-list>
+    </div>
+  
+    <div id="divCentral" *ngIf="calculatedProducts.length > 0">
+      <p>Total a pagar: ${{ getTotalSum() }}</p>
+    </div>
+  
+    <!-- <ion-button (click)="deviceDisconnect()" *ngIf="isConnected">Desconectar</ion-button> -->
+  </div>
+
+
+  
+
+<br><br><br><br><br><br>
+</ion-content>
+
+<ion-footer>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button class="custom-button" [routerLink]="['/login']" >
+        <ion-img src="assets/img/comentarios.png" id="imgFooter"></ion-img>
+      </ion-tab-button>
+      <ion-tab-button  class="custom-button" [routerLink]="['/login']">
+        <ion-img src="assets/img/casa.png" id="imgFooter"></ion-img>
+      </ion-tab-button>
+      <ion-tab-button class="custom-button" [routerLink]="['/login']">
+        <ion-img src="assets/img/info.png" id="imgFooter"></ion-img>
+      </ion-tab-button>
+      <ion-tab-button class="custom-button" [routerLink]="['/login']">
+        <ion-img src="assets/img/userNegro.png" id="imgFooter"></ion-img>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-footer>
+
+
+<!--   <button (click)="ActivarBluetooth()">Buscar</button>
+
+  <div id="container">
+   <div *ngFor="let data of Devices">
+     <p>{{data.name}} </p>
+     <p>{{data.id}} </p>
+
+     <button (click)="connect(data.address)">Conectar</button>
+   </div>
+  </div>
+
+  <br><br><button (click)="sendData()">Enviar</button> -->
