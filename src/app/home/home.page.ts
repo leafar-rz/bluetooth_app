@@ -291,21 +291,58 @@ removeProduct(): void {
 }
 
 imprimirWifi() {
-  const pdfDoc = this.generatePDF();
-  pdfDoc.autoPrint();
-  
-  // Obtener el PDF como un blob
-  const pdfBlob = pdfDoc.output('blob');
-  
-  // Crear una URL objeto para el blob
-  const blobUrl = URL.createObjectURL(pdfBlob);
-  
-  // Abrir el PDF en una nueva pestaña
-  window.open(blobUrl, '_system', 'location=yes');
-
-  alert("LLegamos al final");
-  console.log("LLegamos al final");
-}
+   const pdfDoc = this.generatePDF();
+   pdfDoc.autoPrint();
+   pdfDoc.output('dataurlnewwindow');
+ 
+   /*const pdfDoc = this.generatePDF();
+   pdfDoc.autoPrint();
+   
+   // Obtener el PDF como un blob
+   const pdfBlob = pdfDoc.output('blob');
+   
+   // Crear una URL objeto para el blob
+   const blobUrl = URL.createObjectURL(pdfBlob);
+   
+   // Abrir el PDF en una nueva pestaña
+   window.open(blobUrl, '_system', 'location=yes');*/
+ 
+   /*
+   const pdfDoc = this.generatePDF();
+   pdfDoc.autoPrint();
+   
+   // Obtener el PDF como un blob
+   const pdfBlob = pdfDoc.output('blob');
+   
+   // Crear una URL objeto para el blob
+   const blobUrl = URL.createObjectURL(pdfBlob);
+   
+   // Abrir el PDF en una nueva pestaña
+   window.open(blobUrl, '_system', 'location=yes');
+ 
+   alert("LLegamos al final");
+   console.log("LLegamos al final");*/
+ 
+   /*const contenidoHtml = '<h1>Título del documento</h1><p>Contenido del documento</p>';
+   
+    const options: PrintOptions = {
+     name: 'Mi documento',
+     duplex: true,
+   landscape: true,
+     grayscale: true
+   }; 
+   
+   
+   this.printer.print(contenidoHtml, options).then(
+     () => {
+       alert('Impresión exitosa');
+     },
+     error => {
+       alert('Error al imprimir:'+ error);
+     }
+   );*/
+ 
+ }
 
 generatePDF() {
   const ticketWidth = 80; // Ancho del ticket en milímetros (8 cm)
